@@ -13,8 +13,8 @@ import xml.sax
 import psycopg2
 from psycopg2.extensions import AsIs
 
-from .mutation.parse import EpbdContentHandler, EpbdErrorHandler, HigherError, LowerError, EqualError
-from .mutation.data import get_url, get_data
+from mutation.parse import EpbdContentHandler, EpbdErrorHandler, HigherError, LowerError, EqualError
+from mutation.data import get_url, get_data
 
 
 logger = logging.getLogger(__name__)
