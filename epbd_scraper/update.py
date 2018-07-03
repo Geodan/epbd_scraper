@@ -152,18 +152,27 @@ def main():
     logger.info(
         'Retrieving mutation data for date: {}, requesting url..'.format(date))
 
-    url = get_url(date, args.epbduser, args.epbdpassword)
+    try:
+        url = get_url(date, args.epbduser, args.epbdpassword)
+    except Exception as e:
+        logger.exception(e)
 
     logger.info('url retrieved: {}, downloading data..'.format(url))
 
-    xml_data = get_data(url, date)
+    try:
+        xml_data = get_data(url, date)
+    except Exception as e:
+        logger.exception(e)
 
     logger.info('Download complete. Parsing data..')
 
-    content_handler = EpbdContentHandler(args.host, args.dbname, args.schema,
-                                         args.table, args.psqluser, args.psqlpassword,
-                                         args.port, args.force)
-    error_handler = EpbdErrorHandler()
+    try:
+        content_handler = EpbdContentHandler(args.host, args.dbname, args.schema,
+                                             args.table, args.psqluser, args.psqlpassword,
+                                             args.port, args.force)
+        error_handler = EpbdErrorHandler()
+    except Exception as e:
+        logger.exception(e)
 
     try:
         xml.sax.parseString(xml_data, content_handler, error_handler)
@@ -177,11 +186,11 @@ def main():
         parse_multiple_days(data, date, args.epbduser, args.epbdpassword,
                             content_handler, error_handler)
     except LowerError:
-        logger.info('Parse failed. '
-                    'Data in database more recent than retrieved data.')
+        logger.error('Parse failed. '
+                     'Data in database more recent than retrieved data.')
     except EqualError:
-        logger.info('Parse failed. '
-                    'Data in database already up to date with retrieved data.')
+        logger.error('Parse failed. '
+                     'Data in database already up to date with retrieved data.')
 
 
 if __name__ == '__main__':
