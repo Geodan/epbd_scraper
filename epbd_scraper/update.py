@@ -155,14 +155,16 @@ def main():
     try:
         url = get_url(date, args.epbduser, args.epbdpassword)
     except Exception as e:
-        logger.exception(e)
+        logger.exception("Error retrieving url")
+        raise e
 
     logger.info('url retrieved: {}, downloading data..'.format(url))
 
     try:
         xml_data = get_data(url, date)
     except Exception as e:
-        logger.exception(e)
+        logger.exception("Error retrieving data")
+        raise e
 
     logger.info('Download complete. Parsing data..')
 
@@ -172,7 +174,8 @@ def main():
                                              args.port, args.force)
         error_handler = EpbdErrorHandler()
     except Exception as e:
-        logger.exception(e)
+        logger.exception("Error setting up xml parser")
+        raise e
 
     try:
         xml.sax.parseString(xml_data, content_handler, error_handler)
