@@ -8,7 +8,7 @@ import argparse
 import logging
 import os
 import sys
-import time
+import datetime
 import xml.sax
 import psycopg2
 from psycopg2.extensions import AsIs
@@ -130,7 +130,7 @@ def main():
     args = argument_parser()
 
     if args.date is None:
-        date = time.strftime("%Y-%m-%d")
+        date = str(datetime.date.today() - datetime.timedelta(days=1))
     else:
         date = args.date
 
