@@ -6,12 +6,8 @@
 
 import argparse
 import logging
-import os
-import sys
 import datetime
 import xml.sax
-import psycopg2
-from psycopg2.extensions import AsIs
 
 from mutation.parse import EpbdContentHandler, EpbdErrorHandler, HigherError, LowerError, EqualError
 from mutation.data import get_url, get_data
@@ -135,8 +131,6 @@ def main():
         date = args.date
 
     if args.logfile is not None:
-        # log_dir = os.path.abspath(args.logdir)
-        # log_file = '{}{}log_{}.txt'.format(log_dir, os.path.sep, date)
         logger.setLevel(logging.INFO)
         logging_handler = logging.FileHandler(args.logfile)
         logging_handler.setLevel(logging.INFO)
