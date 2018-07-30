@@ -101,20 +101,20 @@ def argument_parser():
                                 help='The password to access the EPBD SOAP API.',
                                 required=True)
     parser.add_argument('-pp', '--psqlpassword',
-                        help='The password to access the PostgreSQL database.',
+                        help='The password to access the PostgreSQL database. Defaults to empty password.',
                         required=False,
                         default='')
     parser.add_argument('-p', '--port',
-                        help='The port of the PostgreSQL database.',
+                        help='The port of the PostgreSQL database. Default: 5432',
                         type=int,
                         required=False,
                         default=5432)
     parser.add_argument('-a', '--date',
-                        help='The date of the mutation xml file to be requested.',
+                        help='The date of the mutation xml file to be requested. Defaults to the date of yesterday.',
                         required=False,
                         default=None)
     parser.add_argument('-l', '--logfile',
-                        help='A path to a directory to save the logging information to.',
+                        help='A path to a directory to save the logging information to. Default: False',
                         required=False,
                         default=None)
     parser.add_argument('-f', '--force',
@@ -145,7 +145,7 @@ def main():
         logging_handler.setFormatter(formatter)
         logger.addHandler(logging_handler)
 
-    # TODO:
+    # TODO: if it is the first of the month: refresh entire database
     # if int(date.split('-')[2]) == 1:
     #     logging.info('First day of the month, refreshing entire dataset..')
 
